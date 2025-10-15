@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "AdvInvestor",
+    "slug": "native",
+    "version": "1.0.0",
+    "owner": "XP",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "icon": "",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "com.xp.xp_investimentos",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyD6-B0jpVxbauSAnn9Y0exqw3igo_QrQWk"
+        }
+      },
+      "permissions": [
+        "com.google.android.gms.permission.AD_ID"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-tracking-transparency",
+        {
+          "userTrackingPermission": "This identifier will be used to deliver personalized ads to you."
+        }
+      ],
+      "expo-font"
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "7faaf4c9-b6ea-4f1e-bdd7-3eb089013691"
+      },
+      "fonts": {
+        "Roboto": {
+          "uri": "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+        }
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.xp.native"
+    }
+  }
+}
