@@ -32,8 +32,11 @@ const login = (req, res) => {
       { expiresIn: '7d' }
     );
 
+   
+    console.log(`👋 Bem-vindo, ${user.username}!`);
+
     return res.json({
-      message: 'Login realizado com sucesso',
+      message: `Bem-vindo, ${user.username}!`,
       token,
       user: {
         id: user.id,
