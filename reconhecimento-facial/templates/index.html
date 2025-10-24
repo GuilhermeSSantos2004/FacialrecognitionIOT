@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Reconhecimento Facial</title>
+  <style>
+    body {
+      background: #0d1117;
+      color: #f0f0f0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      margin-top: 20px;
+    }
+    img {
+      border: 3px solid #00ff99;
+      margin-top: 20px;
+      width: 640px;
+      height: 480px;
+    }
+    form {
+      margin-top: 20px;
+    }
+    input, button {
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      margin: 5px;
+    }
+    input {
+      width: 200px;
+    }
+    button {
+      background: #00ff99;
+      cursor: pointer;
+    }
+    #status {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 18px;
+      display: inline-block;
+      transition: 0.3s;
+    }
+    .permitido {
+      background: #00ff99;
+      color: #0d1117;
+    }
+    .negado {
+      background: #ff3b3b;
+      color: white;
+    }
+    .verificando {
+      background: #666;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 Sistema de Reconhecimento Facial</h1>
+
+  <img src="/video_feed" alt="Câmera">
+
+  <div id="status" class="verificando">🔄 Verificando...</div>
+
+  <form method="POST" action="/cadastrar" onsubmit="return cadastrarPessoa(event)">
+    <input type="text" name="nome" id="nome" placeholder="Nome da pessoa" required>
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <script>
+    async function atualizarStatus() {
+      try {
+        const response = await fetch('/status');
+        const data = await response.json();
+        const statusDiv = document.getElementById("status");
+
+        if (data.status === "autorizado") {
+          statusDiv.textContent = `🟢 Acesso permitido: ${data.nome} (${data.confianca.toFixed(1)}%)`;
+          statusDiv.className = "permitido";
+        } else if (data.status === "negado") {
+          statusDiv.textContent = `🔴 Acesso negado: ${data.nome}`;
+          statusDiv.className = "negado";
+        } else {
+          statusDiv.textContent = "🔄 Verificando...";
+          statusDiv.className = "verificando";
+        }
+      } catch (err) {
+        console.error("Erro ao atualizar status:", err);
+      }
+    }
+
+    async function cadastrarPessoa(event) {
+      event.preventDefault();
+      const nome = document.getElementById("nome").value;
+      const response = await fetch('/cadastrar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `nome=${encodeURIComponent(nome)}`
+      });
+      const data = await response.json();
+      alert(data.mensagem || data.erro || 'Erro desconhecido');
+      document.getElementById("nome").value = "";
+    }
+
+    setInterval(atualizarStatus, 1000);
+  </script>
+</body>
+</html>
